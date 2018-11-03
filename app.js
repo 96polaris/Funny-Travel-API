@@ -1,0 +1,92 @@
+const Koa = require('koa')
+const app = new Koa()
+const views = require('koa-views')
+const json = require('koa-json')
+const onerror = require('koa-onerror')
+const bodyparser = require('koa-bodyparser')
+const logger = require('koa-logger')
+
+const index = require('./routes/index')
+const users = require('./routes/users')
+const manage = require('./routes/manage')
+const collection=require('./routes/collection')
+
+const activity=require('./routes/activity')
+//活动模块
+
+
+//游记部分
+const travelnote = require('./routes/travelnote')
+
+
+//景点线路
+const route= require('./routes/route')
+const routedetails = require('./routes/routedetails')
+const scenic = require('./routes/scenic')
+const scenicimage = require('./routes/scenicimage')
+const scenicLocation= require('./routes/scenicLocation')
+const scenicintroduce= require('./routes/scenicintroduce')
+
+
+const cors = require('koa2-cors')
+// error handler
+onerror(app)
+
+
+// middlewares
+app.use(bodyparser({
+  enableTypes:['json', 'form', 'text']
+}))
+app.use(json())
+app.use(logger())
+
+//跨域问题
+app.use(cors({
+    origin: function (ctx) {
+        return '*'; //这样就能只允许 http://localhost:63342 这个域名的请求
+        },
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}))
+
+app.use(require('koa-static')(__dirname + '/public'))
+
+app.use(views(__dirname+'/views',{
+  map:{html:'ejs'}
+}))
+
+// logger
+app.use(async (ctx, next) => {
+  const start = new Date()
+  await next()
+  const ms = new Date() - start
+  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+})
+
+// routes
+app.use(index.routes(), index.allowedMethods())
+app.use(users.routes(), users.allowedMethods())
+app.use(manage.routes(), manage.allowedMethods())
+app.use(travelnote.routes(), travelnote.allowedMethods())
+app.use(collection.routes(), collection.allowedMethods())
+
+
+app.use(activity.routes(), activity.allowedMethods())
+
+
+app.use(route.routes(), route.allowedMethods())
+app.use(routedetails.routes(), routedetails.allowedMethods())
+app.use(scenic.routes(), scenic.allowedMethods())
+app.use(scenicimage.routes(), scenicimage.allowedMethods())
+app.use(scenicintroduce.routes(), scenicintroduce.allowedMethods())
+app.use(scenicLocation.routes(), scenicLocation.allowedMethods())
+
+// error-handling
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx)
+});
+
+module.exports = app
