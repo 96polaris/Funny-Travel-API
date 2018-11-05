@@ -4,7 +4,7 @@ const config={
     port:3306,
     user:'root',
     password:'root',
-    database:'mydb'
+    database:'Funny Travel'
 }
 
 module.exports=config;

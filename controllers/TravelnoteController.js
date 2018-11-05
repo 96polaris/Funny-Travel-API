@@ -120,6 +120,7 @@ module.exports = {
 //取消点赞
     qxdianzan: async (ctx) => {
         try {
+            console.log(ctx);
             let jsondata = await Travel.qxdianzan(ctx.params.qx);
             ctx.set('content-type', 'application/json');
             ctx.body = {code: 200, message: '取消成功', data: jsondata}
