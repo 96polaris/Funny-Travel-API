@@ -46,7 +46,7 @@ class DB{
     //获取某个活动的全部评论
     getAllComment(id){
         // return DAO('select * from activityComment where activity_activityId=? order by activityTime desc', [id]);
-        return DAO('SELECT user.userName,user.userImage,activitycomment.zan,activitycomment.activityCommentId,activitycomment.activityCommentContent,activitycomment.activityTime FROM `activitycomment` RIGHT JOIN `user` on activitycomment.userid=user.userId where activitycomment.activity_activityId=?',[id])
+        return DAO('SELECT user.userName,user.userImage,activitycomment.zan,activitycomment.activityCommentId,activitycomment.activityCommentContent,activitycomment.activityTime FROM `activitycomment` RIGHT JOIN `user` on activitycomment.userid=user.userId where activitycomment.activity_activityId=? order by activityTime desc',[id])
     }
     //获取某一个评论详情
     getOneComment(id){
