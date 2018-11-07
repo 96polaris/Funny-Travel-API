@@ -4,7 +4,7 @@ const DAO = require('../model/DAO');
 class DB {
     //推荐游记
     gettuijian(cv) {
-        return DAO('select travelTitle,travelNoteId,travelNoteImage,travelNoteContent,travelNotePriseNum,fbtime,user.userName,user.userImage from travelnote right join user on  travelnote.userId=user.userId WHERE hotNote=?', [cv = 2]
+        return DAO('select travelTitle,travelNoteId,travelNoteImage,travelNoteContent,travelNotePriseNum,fbtime,user.userName,user.userImage from travelnote right join user on  travelnote.userId=user.userId WHERE hotNote=?', [cv = 1]
         );
     }
 

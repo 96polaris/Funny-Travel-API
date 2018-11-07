@@ -21,7 +21,7 @@ router.get('/manageShowAct',async(ctx,next)=>{
 })
 
 //管理员审核活动-通过
-router.get('/manageCheckActAgree',async(ctx,next)=> {
+router.post('/manageCheckActAgree',async(ctx,next)=> {
     await manageController.manageCheckActAgree(ctx,next)
 })
 
@@ -32,20 +32,20 @@ router.get('/manageCheckActAgree',async(ctx,next)=> {
     })
 
    //管理员设置热门景点，线路，游记等
-    router.get('/setScenic',async(ctx,next)=>{
+    router.get('/setScenic/:scenicid',async(ctx,next)=>{
         await manageController.setScenic(ctx,next)
 
     }
 )
 
 
-router.get('/setRoute',async(ctx,next)=>{
+router.get('/setRoute/:routeid',async(ctx,next)=>{
         await manageController.setRoute(ctx,next)
 
     }
 )
 
-router.get('/setNote',async(ctx,next)=>{
+router.get('/setNote/:noteid',async(ctx,next)=>{
         await manageController.setNote(ctx,next)
 
     }

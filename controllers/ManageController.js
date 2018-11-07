@@ -5,17 +5,20 @@ module.exports={
     login:async(ctx,next)=>{
         let query=ctx.request.body;
         let manage={};
+        console.log(query);
         manage.name=query.name;
         //密码加密
         var pwdd=query.pwd;
         const hash=crypto.createHash('md5');
         hash.update(pwdd);
         var pwd=hash.digest('hex')
-        manage.pwd=pwdd
+        manage.pwd=pwd
+        console.log(manage.pwd);
         try{
             //获取传回的管理员密码
             let jsondata=await ManageDAO.checkManage(manage);
-            if(jsondata[0].managePwd==pwd){
+            console.log(jsondata[0].managePwd);
+            if(jsondata[0].managePwd==manage.pwd){
                 ctx.body={"code":200,"message":"OK",data:jsondata[0]}
                 //管理员登录成功
             }else{
@@ -30,7 +33,8 @@ module.exports={
         let query = ctx.request.query
         let act={};
         try {
-            let jsondata=await ManageDAO.manageShowAct(act)
+            let jsondata=await ManageDAO.manageShowAct()
+            console.log(jsondata);
             ctx.body = {"code": 200, "message": "OK", data: jsondata}
 
         } catch (err) {
@@ -38,9 +42,11 @@ module.exports={
         }
     },
     manageCheckActAgree:async(ctx,next)=>{
-        let query = ctx.request.query
+        let query = ctx.request.body
+        console.log(query);
         let act = {};
         act.activityId = query.activityId;
+        console.log(act);
         try {
             await ManageDAO.manageCheckActAgree(act)
             ctx.body = {"code": 200, "message": "OK", data:1}
@@ -50,7 +56,7 @@ module.exports={
         }
     },
     manageCheckActRefuse:async(ctx,next)=>{
-        let query=ctx.request.query
+        let query=ctx.request.body
         let act={};
         act.activityId=query.activityId;
         try{
@@ -64,11 +70,9 @@ module.exports={
     },
     //管理员设置热门景点线路游记等
     setScenic:async(ctx,next)=>{
-        let query=ctx.request.query;
-        let scenic={}
-        scenic.scenicid=query.scenicId
+        console.log(ctx.params);
         try{
-            await ManageDAO.manageSetScenic(scenic)
+            await ManageDAO.manageSetScenic(ctx.params.scenicid)
             ctx.body={"code":200,"message":"OK",data:1}
 
         }catch(err){
@@ -76,11 +80,8 @@ module.exports={
         }
     },
     setRoute:async(ctx,next)=>{
-        let query=ctx.request.query;
-        let route={}
-        route.routeid=query.routeid;
         try{
-            await ManageDAO.manageSetRoute(route)
+            await ManageDAO.manageSetRoute(ctx.params.routeid)
             ctx.body={"code":200,"message":"OK",data:1}
 
         }catch(err){
@@ -88,11 +89,9 @@ module.exports={
         }
     },
     setNote:async(ctx,next)=>{
-        let query=ctx.request.query;
-        let note={}
-        note.noteid=query.noteid;
+
         try{
-            await ManageDAO.manageSetNote(note)
+            await ManageDAO.manageSetNote(ctx.params.noteid)
             ctx.body={"code":200,"message":"OK",data:1}
 
         }catch(err){

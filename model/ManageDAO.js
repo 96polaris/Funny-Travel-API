@@ -19,19 +19,19 @@ class DB{
     }
 
     //管理员设置热门景点，线路,游记等，1为热门
-    manageSetScenic(scenic){
+    manageSetScenic(scenicid){
         var sql='update scenic set hotScenic=1 where scenicId=?'
-        return DAO(sql,[scenic.scenicid])
+        return DAO(sql,[scenicid])
     }
 
-    manageSetRoute(route){
+    manageSetRoute(routeid){
         var sql='update route set hotRoute=1 where routeId=?'
-        return DAO(sql,[route.routeid])
+        return DAO(sql,[routeid])
     }
 
-    manageSetNote(note){
-        var sql='update travelnote set hotNote=1 where travelNoteId=?'
-        return DAO(sql,[note.noteid])
+    manageSetNote(noteid){
+        var sql='update travelnote set hotNote=2 where travelNoteId=?'
+        return DAO(sql,[noteid])
     }
 
 
@@ -82,7 +82,7 @@ class DB{
 
     //显示所有待审核活动（2），管理员进行审核
     manageShowAct(){
-        var sql='select * from activity where manageCheck=2'
+        var sql='select * from activity where manageCheck=0'
         return DAO(sql,[])
 }
     // 2.显示所有热门-可以在首页使用数据

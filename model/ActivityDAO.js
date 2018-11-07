@@ -3,7 +3,7 @@ const DAO=require('../model/DAO');
 class DB{
     //获取全部活动信息
     getAllActivity(){
-        return DAO('select * from activity order by endTime desc', []);
+        return DAO('select * from activity where manageCheck=1 order by endTime desc', []);
     }
     //查询某一个活动详情
     getOneActivity(id){
