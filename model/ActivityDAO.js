@@ -78,8 +78,14 @@ class DB{
 
     //查看用户加入活动的情况
     getJoinDetails(id){
-        return DAO('select user.userName,user.userImage,user.userPhone from joinactivity join user on joinactivity.user_userid=user.userId where joinactivity.activity_activityId=?',[id])
+        return DAO('select user.userName,user.userImage,user.userPhone from joinactivity join user on joinactivity.user_userid=user.userId where joinactivity.activity_activityId=? and userStatus=1',[id])
     }
+
+    //查看  用户申请加入  活动的情况
+    getJoinApply(id){
+        return DAO('select user.userName,user.userId,user.userImage,user.userPhone from joinactivity join user on joinactivity.user_userid=user.userId where joinactivity.activity_activityId=? and userStatus=2',[id])
+    }
+
 
     //评论点赞
     clickZan(id){
@@ -100,6 +106,13 @@ class DB{
     showReply(id){
         return DAO('select user.userName,user.userImage,"replyactcomment.replyContent","replyactcomment.replyTime" from activitycomment join user on "replyactcomment.userId"=user.userId where "replyactcomment.actCommentId"=?',[id])
     }
+
+    // 用户加入活动  审核 同意
+    manageJoin(act){
+        return DAO('update joinactivity set userStatus=1 where user_userId=? and activity_activityId=?',[act.userId,act.actId])
+    }
+
+
 }
 
 module.exports=new DB();

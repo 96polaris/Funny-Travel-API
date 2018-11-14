@@ -4,7 +4,7 @@ const DAO=require('../model/DAO');
 class DB{
     //管理员登录，身份验证
     checkManage(manage){
-        var sql='select managePwd from manage where manageName=?'
+        var sql='select manageName,managePwd from manage where manageName=?'
         return DAO(sql,[manage.name])
     }
 //状态为0表示未通过，1表示通过

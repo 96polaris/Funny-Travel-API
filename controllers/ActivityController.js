@@ -309,6 +309,21 @@ module.exports = {
       }
     },
 
+    // 查看用户  申请加入  活动的情况
+    getJoinApply:async (ctx,next)=>{
+        try {
+            let data = await ActivityDAO.getJoinApply(ctx.params.id);
+            console.log(data)
+            console.log('活动ID' + ctx.params.id);
+            ctx.body = {"code": 200, "message": "OK", data: data}
+
+        }
+        catch (err) {
+            console.log('获取详情失败' + err.message)
+        }
+    },
+
+
         //评论点赞
     clickZan: async (ctx, next) => {
         try{
@@ -369,4 +384,23 @@ module.exports = {
             ctx.body = {"code": 500, "message": err.toString(), data: data}
         }
     },
+
+
+    // 用户加入活动  审核
+    manageJoin:async(ctx,next)=> {
+        try {
+            let userId = ctx.params.userId;
+            let actId = ctx.params.actId;
+            let act = {}
+            act.actId = actId,
+                act.userId = userId
+            console.log(act);
+            let jsondata = await ActivityDAO.manageJoin(act)
+            console.log(jsondata)
+            ctx.body = {"code": 200, "message": "OK", data: jsondata}
+        }
+        catch (err) {
+            ctx.body = {"code": 500, "message": err.message, data: []}
+        }
+    }
 }

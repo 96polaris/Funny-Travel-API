@@ -89,11 +89,21 @@ router.get('/joinDetails/:id', async (ctx, next) => {
     await ActivityController.getJoinDetails(ctx,next)
 })
 
+//查看   用户申请加入活动   的情况
+router.get('/joinApply/:id', async (ctx, next) => {
+    await ActivityController.getJoinApply(ctx,next)
+})
+
 
 //显示回复评论
 router.post('/replyDetails/:id', async (ctx, next) => {
     console.log(123);
     await ActivityController.showReply(ctx,next)
+})
+
+// 用户审核加入活动
+router.get('/manageJoin/:userId/:actId',async(ctx,next)=>{
+    await ActivityController.manageJoin(ctx,next)
 })
 
 
